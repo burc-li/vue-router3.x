@@ -37,6 +37,12 @@ function install (_Vue) {
       return this._routerRoot && this._routerRoot._router
     }
   })
+  // 代理实例上的 $route 属性，this.$route
+  // Object.defineProperty(Vue.prototype, '$route', {
+  //   get () {
+  //     return this._routerRoot && this._routerRoot._route
+  //   }
+  // })
 
   // 注册 router-link 全局组件
   Vue.component('router-link', {
