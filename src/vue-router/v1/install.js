@@ -1,5 +1,5 @@
 /**
- * @name install
+ * @name install方法
  * @desc Vue.use(plugin) 安装 Vue.js 插件时调用，如果插件是一个对象，必须提供 install 方法。如果插件是一个函数，它会被作为 install 方法。install 方法调用时，会将 Vue 作为参数传入。
  * @todo 1. 要将 main.js中 根实例注入的 router属性 共享给每个组件
  * @todo 2. 代理 this.$router 和 this.$route 属性

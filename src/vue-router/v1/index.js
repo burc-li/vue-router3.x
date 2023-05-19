@@ -1,3 +1,9 @@
+/**
+ * @name VueRouter类
+ * @desc
+ * @todo 1. 需要在 VueRouter类本身上挂载install方法
+ */
+
 import install from './install'
 
 class VueRouter {
@@ -7,10 +13,7 @@ class VueRouter {
   }
 }
 
-// 为什么额外写一个install方法，原因就是：当执行 Vue.use(VueRouter) 时，如果VueRouter插件是一个对象，必须提供 install 方法，install 方法调用时，会将 Vue 作为参数传入
-// 1. 要将 main.js中 根实例注入的 router属性 共享给每个组件
-// 2. 代理 this.$router 和 this.$route 属性
-// 3. 注册全局组件 router-link 和 router-view
+// 当执行 Vue.use(VueRouter) 时，如果 VueRouter插件是一个对象，必须提供 install方法，install方法调用时，会将 Vue作为参数传入
 VueRouter.install = install
 
 export default VueRouter
