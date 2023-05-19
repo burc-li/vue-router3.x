@@ -1,4 +1,7 @@
-// 根据用户传入的 routes选项 生成一个 扁平化的路由信息
+/**
+ * @name createRouteMap方法
+ * @todo 根据用户传入的 routes选项，生成扁平化的路由信息
+ */
 export default function createRouteMap (routes, pathMap) {
   pathMap = pathMap || {}
   routes.forEach(route => {
@@ -12,7 +15,7 @@ export default function createRouteMap (routes, pathMap) {
 
 // 添加路由信息
 function addRouteRecord (route, pathMap, parentRecord) {
-  const path = parentRecord ? `${parentRecord.path === '/' ? '/' : `${parentRecord.path}/`}${route.path}` : route.path
+  const path = parentRecord ? `${parentRecord.path}${parentRecord.path.endsWith('/') ? '' : '/'}${route.path}` : route.path
   const record = {
     path,
     component: route.component,

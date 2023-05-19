@@ -1,5 +1,10 @@
 import createRouteMap from './create-route-map'
 
+/**
+ * @name createMatcher方法
+ * @todo 1. 通过 createRouteMap() 获取扁平化的路由信息
+ * @todo 2. 实现 addRoutes、addRoute、match方法
+ */
 export default function createMatcher (routes) {
   const { pathMap } = createRouteMap(routes)
 
