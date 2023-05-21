@@ -2,6 +2,7 @@
  * @name VueRouter类
  * @desc
  * @todo 1. 需要在 VueRouter类本身上挂载install方法
+ * @todo 2. 在router初始化方法中，手动调用 history.transitionTo渲染对应的组件，并监控路由变化
  */
 
 import install from './install'
@@ -19,10 +20,25 @@ class VueRouter {
 
     const mode = options.mode || 'hash'
     if (mode === 'hash') {
-      this.history = new HashHistory(this)
+      this.history = new HashHistory(this) // popstate, hashchange
     } else if (mode === 'history') {
       this.history = new Html5History(this)
     }
+  }
+
+  // router初始化方法（只会在 根vue实例中的 beforeCreate钩子中调用一次）
+  init (app) {
+    console.log('init')
+    const history = this.history
+    // 手动根据当前路径去匹配对应的组件，渲染，之后监听路由变化
+    history.transitionTo(history.getCurrentLocation(), () => {
+      history.setupListener()
+    })
+  }
+
+  // 简化用户调用层级  this.match ≈ this.matcher.match
+  match (location) {
+    return this.matcher.match(location)
   }
 }
 

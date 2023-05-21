@@ -1,7 +1,9 @@
 /**
  * @name install
  * @desc Vue.use(plugin) 安装 Vue.js 插件时调用，如果插件是一个对象，必须提供 install 方法。如果插件是一个函数，它会被作为 install 方法。install 方法调用时，会将 Vue 作为参数传入。
- * @todo 1. 要将 main.js中 根实例注入的 router属性 共享给每个组件
+ * @todo 1. beforeCreate混入
+ * @todo 1.1. 要将 main.js中根实例注入的 router属性共享给每个组件（我们把根应用 new Vue()做了共享）
+ * @todo 1.2. 调用 router初始化方法，router.init（调用 history.transitionTo渲染对应的组件，并监控路由变化）
  * @todo 2. 代理 this.$router 和 this.$route 属性
  * @todo 3. 注册全局组件 router-link 和 router-view
  */
@@ -17,10 +19,12 @@ function install (_Vue) {
   Vue.mixin({
     beforeCreate () {
       // 组件渲染是从父到子的
-      // 这样保证了有 router路由实例 才加，没有 router路由实例 就不加
+      // 这样保证了有 router路由实例才加，没有 router路由实例就不加
       if (this.$options.router) {
         this._routerRoot = this // 根实例
-        this._router = this.$options.router
+        this._router = this.$options.router // router路由实例
+
+        this._router.init(this) // this 就是我们的根应用 new Vue()
 
         // this._router 可以拿到路由实例
         // this._route 可以拿到current对象
@@ -37,6 +41,7 @@ function install (_Vue) {
       return this._routerRoot && this._routerRoot._router
     }
   })
+
   // 代理实例上的 $route 属性，this.$route
   // Object.defineProperty(Vue.prototype, '$route', {
   //   get () {
