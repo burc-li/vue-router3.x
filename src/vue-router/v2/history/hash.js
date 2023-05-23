@@ -2,9 +2,10 @@
  * @name hash路由类
  * @desc
  * @todo 1. new 一个hash路由时，给一个默认的 hash路径 /
- * @todo 2. 监测到hash值变化后，需要执行 transitionTo渲染对应的组件（前进后退，ensureSlash添加默认hash值/......）
- * @todo 3. 地址栏手动输入 http://localhost:8080/#/about 并回车，这时还没有添加路由监听器呢，需要在router.init中手动调用 transitionTo
- * @todo 4. popstate / hashchange
+ * @todo 2. 优先使用 popstate，不支持则使用 hashchange
+ * @todo 3. 监测到hash值变化后，需要执行 transitionTo渲染对应的组件（前进后退，ensureSlash添加默认hash值/......）
+ * @todo 4. 地址栏手动输入 http://localhost:8080/#/about 并回车，这时还没有添加路由监听器呢，需要在router.init中手动调用 transitionTo
+ * @todo 5. 点击router-link时，执行push跳转页面，先手动执行 transitionTo渲染组件，后改变URL地址（window.history.pushState 不会触发 popstate事件）
  */
 
 import Base from './base'

@@ -3,6 +3,7 @@
  * @desc
  * @todo 1. 需要在 VueRouter类本身上挂载install方法
  * @todo 2. 在router初始化方法中，手动调用 history.transitionTo渲染对应的组件，并监控路由变化
+ * @todo 3. 点击router-link时，触发push方法，其调用 HashHistory or Html5History 的跳转逻辑，针对hash模式：window.location.hash；针对history模式：history.pushState
  */
 
 import install from './install'
