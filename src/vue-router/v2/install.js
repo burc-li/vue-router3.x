@@ -8,6 +8,7 @@
  * @todo 3. 注册全局组件 router-link 和 router-view
  */
 
+import routerLink from './components/router-link'
 // 静态全局变量
 export let Vue
 
@@ -50,11 +51,7 @@ function install (_Vue) {
   // })
 
   // 注册 router-link 全局组件
-  Vue.component('router-link', {
-    render () {
-      return <a>{this.$slots.default}</a>
-    }
-  })
+  Vue.component('router-link', routerLink)
 
   // 注册 router-view 全局组件
   Vue.component('router-view', {

@@ -7,7 +7,7 @@ class Base {
   transitionTo (location, listener) {
     // 根据一个路径匹配对应的路由信息
     const record = this.router.match(location)
-    console.log('record', record)
+    console.log('transitionTo（record）', record)
 
     listener && listener()
   }

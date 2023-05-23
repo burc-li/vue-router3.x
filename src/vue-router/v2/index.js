@@ -28,7 +28,7 @@ class VueRouter {
 
   // router初始化方法（只会在 根vue实例中的 beforeCreate钩子中调用一次）
   init (app) {
-    console.log('init')
+    console.log('router初始化方法（init）')
     const history = this.history
     // 手动根据当前路径去匹配对应的组件，渲染，之后监听路由变化
     history.transitionTo(history.getCurrentLocation(), () => {
@@ -39,6 +39,13 @@ class VueRouter {
   // 简化用户调用层级  this.match ≈ this.matcher.match
   match (location) {
     return this.matcher.match(location)
+  }
+
+  // 调用 HashHistory or Html5History 的跳转逻辑（点击router-link触发）
+  push (location) {
+    // 针对hash模式： window.location.hash
+    // 针对history模式： history.pushState
+    return this.history.push(location)
   }
 }
 

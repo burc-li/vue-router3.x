@@ -24,13 +24,26 @@ class HashHistory extends Base {
   }
 
   // 添加监听器，监听hash值的变化（在 vueRouter类的init方法中调用）
+  // window.location.hash = 'xxx' 会触发 popstate事件 和 hashchange事件
+  // window.history.pushState({},'','xxx') 都不会触发！！！
   setupListener () {
-    console.log('setupListener')
-
-    // const eventType = supportsPushState ? 'popstate' : 'hashchange'
-    const eventType = 'hashchange'
+    console.log('添加路由监听器（setupListener）')
+    const eventType = supportsPushState ? 'popstate' : 'hashchange'
     window.addEventListener(eventType, () => {
       this.transitionTo(getHash()) // 初始化执行的 ensureSlash方法也会触发此回调
+    })
+  }
+
+  // 跳转页面
+  // 为什么要手动执行 transitionTo，而不是直接改变地址，通过路由监听器去间接执行 transitionTo？
+  // 因为 window.history.pushState() 不会触发 popstate事件！！！
+  push (location) {
+    this.transitionTo(location, () => {
+      if (supportsPushState) {
+        window.history.pushState({}, '', getUrl(location))
+      } else {
+        window.location.hash = location
+      }
     })
   }
 }
@@ -48,6 +61,14 @@ function ensureSlash () {
 // '#/assets/1522392838?id=1522392838'  ==>  '/assets/1522392838?id=1522392838'
 function getHash () {
   return window.location.hash.slice(1)
+}
+
+// 绝对路径
+function getUrl (path) {
+  const href = window.location.href
+  const i = href.indexOf('#')
+  const base = i >= 0 ? href.slice(0, i) : href
+  return `${base}#${path}`
 }
 
 export default HashHistory
