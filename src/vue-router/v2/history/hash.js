@@ -20,17 +20,20 @@ class HashHistory extends Base {
     ensureSlash()
   }
 
+  // 获取hash路径片段 http://192.168.21.144/framework-assets#/assets/1522392838?id=1522392838 => '/assets/1522392838?id=1522392838'
   getCurrentLocation () {
     return getHash()
   }
 
   // 添加监听器，监听hash值的变化（在 vueRouter类的init方法中调用）
-  // window.location.hash = 'xxx' 会触发 popstate事件 和 hashchange事件
-  // window.history.pushState({},'','xxx') 都不会触发！！！
+  // 当用户在浏览器点击后退、前进，或者在js中调用 history.back()，history.go()，history.forward()等，会触发 popstate事件 和 hashchange事件
+  // 用户通过 location.hash = 'xxx' 也会触发 popstate事件 和 hashchange事件
+  // 但 history.pushState()，history.replaceState（）不会触发这两个事件！！！
   setupListener () {
     console.log('添加路由监听器（setupListener）')
     const eventType = supportsPushState ? 'popstate' : 'hashchange'
     window.addEventListener(eventType, () => {
+      console.log('>>>hash模式发生变化了')
       this.transitionTo(getHash()) // 初始化执行的 ensureSlash方法也会触发此回调
     })
   }
