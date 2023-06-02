@@ -1,6 +1,6 @@
 import Vue from 'vue'
 // import VueRouter from 'vue-router' // 官方 vue router
-import VueRouter from '@/vue-router/v2'
+import VueRouter from '@/vue-router/v3'
 import Home from '@/views/Home.vue'
 import About from '@/views//About.vue'
 

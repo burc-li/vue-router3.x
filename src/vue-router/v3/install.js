@@ -4,6 +4,7 @@
  * @todo 1. beforeCreate混入
  * @todo 1.1. 要将 main.js中根实例注入的 router属性共享给每个组件（我们把根应用 new Vue()做了共享）
  * @todo 1.2. 调用 router初始化方法，router.init（调用 history.transitionTo渲染对应的组件，并监控路由变化）
+ * @todo 1.3. 给根实例添加一个响应性属性 app._route，值是 current。但是！！！current 改变并不会触发 _route的改变，我们需要在current变化时手动更新 _route的值（_route变化会引起页面重新渲染）
  * @todo 2. 代理 this.$router 和 this.$route 属性
  * @todo 3. 注册全局组件 router-link 和 router-view
  */
@@ -27,6 +28,11 @@ function install (_Vue) {
 
         this._router.init(this) // this 就是我们的根应用 new Vue()
 
+        // 给根实例添加一个属性 _route，值就是当前的 current对象，并将 this._route变成了响应式对象（数据变化应该会引起页面重新渲染）
+        // 注意！！！current 改变并不会触发 _route的改变，我们需要在 current变化时手动更新 this._route的值
+        // let current = {}; let _route = current; current = {name: '新的'}; _route 仍然是 {}
+        Vue.util.defineReactive(this, '_route', this._router.history.current)
+
         // this._router 可以拿到路由实例
         // this._route 可以拿到current对象
       } else {
@@ -44,11 +50,11 @@ function install (_Vue) {
   })
 
   // 代理实例上的 $route 属性，this.$route
-  // Object.defineProperty(Vue.prototype, '$route', {
-  //   get () {
-  //     return this._routerRoot && this._routerRoot._route
-  //   }
-  // })
+  Object.defineProperty(Vue.prototype, '$route', {
+    get () {
+      return this._routerRoot && this._routerRoot._route
+    }
+  })
 
   // 注册 router-link 全局组件
   Vue.component('router-link', routerLink)
