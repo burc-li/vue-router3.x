@@ -10,6 +10,8 @@
  */
 
 import routerLink from './components/router-link'
+import routerView from './components/router-view'
+
 // 静态全局变量
 export let Vue
 
@@ -60,10 +62,6 @@ function install (_Vue) {
   Vue.component('router-link', routerLink)
 
   // 注册 router-view 全局组件
-  Vue.component('router-view', {
-    render () {
-      return <div></div>
-    }
-  })
+  Vue.component('router-view', routerView)
 }
 export default install
