@@ -1,6 +1,6 @@
 import Vue from 'vue'
 // import VueRouter from 'vue-router' // 官方 vue router
-import VueRouter from '@/vue-router/v3'
+import VueRouter from '@/vue-router/v4'
 import Home from '@/views/Home.vue'
 import About from '@/views//About.vue'
 
@@ -57,6 +57,19 @@ const router = new VueRouter({
   // mode: 'hash',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((from, to, next) => {
+  setTimeout(() => {
+    console.log('beforeEach__________第一个钩子')
+    next()
+  }, 2000)
+})
+router.beforeEach((from, to, next) => {
+  setTimeout(() => {
+    console.log('beforeEach__________第二个钩子')
+    next()
+  }, 1000)
 })
 
 export default router

@@ -25,7 +25,7 @@ export default {
 
     // matched是一个包含上下父子路由记录的数组，格式如下：[aboutRecord, aboutARecord]
     const record = route.matched[depth]
-    console.log('route-matched>>>>>>>>', route.matched, depth, record)
+    console.log('route-matched', route.matched, depth, record)
 
     // 没有匹配到组件直接return
     if (!record) {

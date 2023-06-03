@@ -5,6 +5,7 @@
  * @todo 2. 在router初始化方法中，手动调用 history.transitionTo渲染对应的组件，并监控路由变化
  * @todo 3. 在router初始化方法中，手动调用 history.listen记录 更新_route的回调，在 history.transitionTo执行此回调
  * @todo 4. 点击router-link时，触发push方法，其调用 HashHistory or Html5History 的跳转逻辑，针对hash模式：window.location.hash；针对history模式：history.pushState
+ * @todo 5. beforeEach路由守卫
  */
 
 import install from './install'
@@ -16,6 +17,7 @@ class VueRouter {
   constructor (options) {
     // 用户传递的路由配置
     const routes = options.routes || []
+    this.beforeEachHooks = []
 
     // 变成映射表 方便后续的匹配操作  可以匹配也可以添加新的路由
     this.matcher = createMatcher(routes)
@@ -24,8 +26,13 @@ class VueRouter {
     if (mode === 'hash') {
       this.history = new HashHistory(this) // popstate, hashchange
     } else if (mode === 'history') {
-      this.history = new Html5History(this)
+      this.history = new Html5History(this) // popstate
     }
+  }
+
+  // 路由守卫，缓存回调钩子，在 transitionTo方法中执行回调钩子
+  beforeEach (cb) {
+    this.beforeEachHooks.push(cb)
   }
 
   // router初始化方法（只会在 根vue实例中的 beforeCreate钩子中调用一次）

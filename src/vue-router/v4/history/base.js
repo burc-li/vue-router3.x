@@ -26,13 +26,16 @@ class Base {
     // transitionTo方法执行了两次（此处打印了两遍），需要去重处理，当前跳转的路由location 和 上次的跳转的路由（v3中实现此属性）作比较；若一致，则return
     console.log('transitionTo（record）', record, route)
 
-    this.current = route // 更新当前的 current对象， 稍后我们就可以切换页面显示
+    const queue = [].concat(this.router.beforeEachHooks) // 我们可能有多个钩子
+    runQueue(queue, this.current, route, () => {
+      this.current = route // 更新当前的 current对象， 稍后我们就可以切换页面显示
 
-    // 添加路由监听器 or 更改地址栏url
-    listener && listener()
+      // 添加路由监听器 or 更改地址栏url
+      listener && listener()
 
-    // 更新 app._route
-    this.cb && this.cb(route)
+      // 更新 app._route
+      this.cb && this.cb(route)
+    })
   }
 }
 
@@ -55,4 +58,18 @@ function createRoute (record, location) {
     ...location,
     matched
   }
+}
+
+/**
+ * @name 执行路由守卫钩子
+ * @desc 如果有多个beforeEach钩子，只有在上一个钩子中执行了next方法，我们才会运行下一个钩子
+ * @desc 只要有一个钩子未执行next方法，则终止（后续的钩子、跳转逻辑均不执行）
+ */
+function runQueue (queue, from, to, cb) {
+  function step (index) {
+    if (index >= queue.length) return cb()
+    const hook = queue[index] // hook就是我们的钩子方法
+    hook(from, to, () => step(index + 1)) // 第三个参数就是 next方法
+  }
+  step(0)
 }
