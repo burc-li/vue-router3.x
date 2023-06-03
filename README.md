@@ -13,7 +13,7 @@ npm run dev
 
 ## 介绍
 ### vue-router/v1
-1. 主要实现 vue router 中一个简易的的install方法
+1. 主要实现 vue router 中一个简易的 install方法
 
 ### vue-router/v2
 1. 实现 vue router中的跳转逻辑
