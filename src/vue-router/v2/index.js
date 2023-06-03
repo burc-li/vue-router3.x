@@ -23,7 +23,7 @@ class VueRouter {
     if (mode === 'hash') {
       this.history = new HashHistory(this) // popstate, hashchange
     } else if (mode === 'history') {
-      this.history = new Html5History(this)
+      this.history = new Html5History(this) // popstate
     }
   }
 
