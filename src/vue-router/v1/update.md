@@ -1,1 +1,1 @@
-# 实现 vue router 中一个简易的的install方法
+# 实现 vue router 中一个简易的 install方法
