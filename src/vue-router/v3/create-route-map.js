@@ -1,5 +1,5 @@
 /**
- * @name createRouteMap方法
+ * @name 路由映射
  * @todo 根据用户传入的 routes选项，生成扁平化的路由信息
  */
 export default function createRouteMap (routes, pathMap) {

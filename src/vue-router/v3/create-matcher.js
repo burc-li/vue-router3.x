@@ -1,7 +1,7 @@
 import createRouteMap from './create-route-map'
 
 /**
- * @name createMatcher方法
+ * @name 路由匹配器
  * @todo 1. 通过 createRouteMap() 获取扁平化的路由信息
  * @todo 2. 实现 addRoutes、addRoute、match方法
  */

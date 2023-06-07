@@ -16,7 +16,7 @@ class VueRouter {
     // 用户传递的路由配置
     const routes = options.routes || []
 
-    // 变成映射表 方便后续的匹配操作  可以匹配也可以添加新的路由
+    // 路由匹配器，可以匹配也可以添加新的路由
     this.matcher = createMatcher(routes)
 
     const mode = options.mode || 'hash'
